@@ -1,7 +1,7 @@
 # config/initializers/geocoder.rb
 
 # geocoding service (see below for supported options):
-Geocoder::Configuration.lookup = :bing
+Geocoder::Configuration.lookup = :google
 
 # to use an API key:
 # Geocoder::Configuration.api_key = "..."
