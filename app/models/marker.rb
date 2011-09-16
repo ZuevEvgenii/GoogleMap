@@ -7,5 +7,9 @@ class Marker < ActiveRecord::Base
 
   belongs_to :group
 
+  def gmaps4rails_address
+    self.address
+  end
+
 end
 
