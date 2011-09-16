@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vitiligo</title>
+  <%= stylesheet_link_tag :all %>
+  <%= javascript_include_tag :defaults %>
+
+  <%= yield :head %>
+  <%= csrf_meta_tag %>
+<script type="text/javascript" src="http://maps.google.com/maps?file=api&v=2.x"></script>
+  <%= javascript_include_tag "raphael-min", "cartographer.min.0.4" %>
+<script type="text/javascript">
+  function initialize() {
+  if( GBrowserIsCompatible() ) {
+    var map = new GMap2(document.getElementById("map_canvas"));
+    map.enableScrollWheelZoom();
+    map.setCenter(new GLatLng(18, 0), 2);
+    map.addControl(new GLargeMapControl());
+    map.addControl(new GHierarchicalMapTypeControl());
+    map.setMapType(G_PHYSICAL_MAP)
+
+    var cartographer = Cartographer( map, { colorize:"#000", colorizeAlpha:.3 } );
+    cartographer.choropleth([
+      {region:"RU-Msk",val:6, label: "<hr />"},
+      {region:"US-IA",val:10},
+      {region:"US-WI",val:8},
+      {region:"US-SD",val:7},
+      {region:"US-ND",val:9},
+      {region:"US-MI",val:12}
+    ], { colorScheme:"BuPu"});
+  }
+  }
+
+</script>
+
+
+</head>
+<body onload="initialize()">
+
+<%= yield %>
+
+<%= yield :scripts %>
+
+</body>
+</html>
+
