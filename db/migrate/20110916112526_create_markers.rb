@@ -7,6 +7,7 @@ class CreateMarkers < ActiveRecord::Migration
       t.float :longitude
       t.float :latitude
       t.boolean :gmaps
+      t.integer :group_id
 
       t.timestamps
     end
@@ -16,3 +17,4 @@ class CreateMarkers < ActiveRecord::Migration
     drop_table :markers
   end
 end
+

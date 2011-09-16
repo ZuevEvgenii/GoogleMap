@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20110916112526) do
     t.float    "longitude"
     t.float    "latitude"
     t.boolean  "gmaps"
+    t.integer  "group_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
