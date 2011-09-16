@@ -8,7 +8,7 @@
 <% end %>
 
 <br />
-<%= debug(request.location) %>
+
 <ul id="markers_list">  </ul>
 <%= gmaps("markers" => {"data" => @json, "options" => {"list_container" => "markers_list" } }) %>
 
