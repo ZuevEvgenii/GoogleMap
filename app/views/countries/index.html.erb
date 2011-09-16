@@ -5,7 +5,19 @@
 <div id="map_canvas" style="width:1000px; height:500px;"></div>
 <%= content_for :scripts do %>
 <script type="text/javascript" charset="utf-8">
+    var loc = {};
+    var geocoder = new Gmaps.Geocoder();
+    if(google.loader.ClientLocation) {
+        loc.lat = google.loader.ClientLocation.latitude;
+        loc.lng = google.loader.ClientLocation.longitude;
 
+        var latlng = new google.maps.LatLng(loc.lat, loc.lng);
+        geocoder.geocode({'latLng': latlng}, function(results, status) {
+            if(status == google.maps.GeocoderStatus.OK) {
+                alert(results[0]['formatted_address']);
+            };
+        });
+    }
 </script>
 <% end %>
 

@@ -6,6 +6,7 @@ Vitiligo::Application.routes.draw do
   root :to => "countries#index"
 
   resources :countries
+  resources :groups, :only => [:index, :show]
 
 
   # The priority is based upon order of creation:

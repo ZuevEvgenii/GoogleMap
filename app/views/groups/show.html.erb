@@ -1,0 +1,14 @@
+<h1><%= @group.title %></h1>
+
+<%= form_tag group_path(@group), :method => :get do %>
+  <p>
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search Near", :name => nil %>
+  </p>
+<% end %>
+
+<br />
+<%= debug(request.location) %>
+<ul id="markers_list">  </ul>
+<%= gmaps("markers" => {"data" => @json, "options" => {"list_container" => "markers_list" } }) %>
+

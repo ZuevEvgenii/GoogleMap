@@ -15,6 +15,7 @@ gem 'gmaps4rails'
 
 gem 'geocoder'
 
+gem "rmagick"
 gem 'carrierwave'
 
 # Use unicorn as the web server
