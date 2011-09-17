@@ -1,0 +1,7 @@
+<h3> <%= group.title %> </h3>
+<ul>
+<% group.markers.each do |marker| %>
+  <li><%= link_to marker.name, admin_marker_path %></li>
+<% end %>
+</ul>
+

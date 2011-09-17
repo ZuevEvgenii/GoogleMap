@@ -1,0 +1,23 @@
+<%= semantic_form_for [:admin, @marker], :html => {:multipart => true} do |f| %>
+      <%= f.inputs "Details" do %>
+        <%= f.input :group,  :as => :select, :collection => Group.find(:all) %>
+        <%= f.input :name %>
+        <%= f.input :description %>
+        <%= f.input :address %>
+        <%= f.input :longitude %>
+        <%= f.input :latitude %>
+        <%= f.input :marker_icon, :as => :file %>
+      <% end %>
+      <%= f.buttons %>
+<% end %>
+
+<script type="text/javascript" src ="http://maps.googleapis.com/maps/api/js?sensor=true">
+</script>
+
+<div id="map" style="width:600px; height:400px;"> </div>
+
+<script type="text/javascript">
+  var MyOptions = {zoom:8, mapTypeId:google.maps.MapTypeId.ROADMAP};
+  var map = new google.maps.Map(document.getElementById("map"), MyOptions);
+</script>
+
