@@ -30,5 +30,9 @@ class Marker < ActiveRecord::Base
     "<h1>#{self.name}</h1>" + image + "<p>#{self.address}</p>" + "<p>#{self.description}</p>"
   end
 
+  def icon
+    "#{self.marker_icon.url(:thumb) ? self.marker_icon.url(:thumb) : "/images/marker.png"}"
+  end
+
 end
 

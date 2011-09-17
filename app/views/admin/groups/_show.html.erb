@@ -1,7 +1,7 @@
 <h3> <%= group.title %> </h3>
 <ul>
 <% group.markers.each do |marker| %>
-  <li><%= link_to marker.name, admin_marker_path %></li>
+  <li><%= link_to marker.name, admin_marker_path(marker) %> | <%= link_to "Edit", edit_admin_marker_path(marker) %>, <%= link_to "Destroy", admin_marker_path(marker), :method => :delete %> </li>
 <% end %>
 </ul>
 

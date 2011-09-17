@@ -4,20 +4,100 @@
         <%= f.input :name %>
         <%= f.input :description %>
         <%= f.input :address %>
+        <a id="link_detect_by_address" style="cursor:pointer; width: 79%; float:right;">Detect on map by address</a><br />
         <%= f.input :longitude %>
         <%= f.input :latitude %>
+        <a id="link_detect_by_latlng" style="cursor:pointer; width: 79%; float:right;">Detect on map by coordinates</a><br />
         <%= f.input :marker_icon, :as => :file %>
       <% end %>
       <%= f.buttons %>
 <% end %>
 
-<script type="text/javascript" src ="http://maps.googleapis.com/maps/api/js?sensor=true">
-</script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
 
-<div id="map" style="width:600px; height:400px;"> </div>
+<div id="map_canvas" style="width:600px; height:400px;"></div>
 
 <script type="text/javascript">
-  var MyOptions = {zoom:8, mapTypeId:google.maps.MapTypeId.ROADMAP};
-  var map = new google.maps.Map(document.getElementById("map"), MyOptions);
+var map;
+
+<% if @marker.address || (@marker.latitude && @marker.longitude) %>
+  var myLatlng = new google.maps.LatLng(<%= @marker.latitude.to_s + ", " + @marker.longitude.to_s %>);
+<% else %>
+  var myLatlng = new google.maps.LatLng(51.50039283743109, -0.12623619999999391);
+  $("input[name='marker[latitude]']").val(51.50039283743109);
+  $("input[name='marker[longitude]']").val(-0.12623619999999391);
+  $("input[name='marker[address]']").val("London");
+<% end %>
+var geocoder = new google.maps.Geocoder();
+var marker;
+
+function initialize() {
+
+  var myOptions = {
+    zoom: 15,
+    center: myLatlng,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+
+  map = new google.maps.Map(document.getElementById('map_canvas'), myOptions);
+
+  marker = new google.maps.Marker({
+    position: myLatlng,
+    title:"Hello World!",
+    draggable: true,
+    icon: new google.maps.MarkerImage('<%= @marker.icon %>')
+  });
+
+  google.maps.event.addListener(marker, 'dragend', function() {
+    $("input[name='marker[latitude]']").val(marker.getPosition().lat());
+    $("input[name='marker[longitude]']").val(marker.getPosition().lng());
+
+    geocoder.geocode({'latLng': marker.getPosition()}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          $("input[name='marker[address]']").val(results[0].formatted_address);
+        }
+      }
+    });
+  });
+  marker.setMap(map);
+
+
+  $("#link_detect_by_address").each(function(){
+    this.onclick = function(event) {
+        var address = $("input[name='marker[address]']").val();
+        geocoder.geocode({'address': address}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            marker.setPosition(results[0].geometry.location);
+            $("input[name='marker[latitude]']").val(marker.getPosition().lat());
+            $("input[name='marker[longitude]']").val(marker.getPosition().lng());
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+    };
+  });
+
+  $("#link_detect_by_latlng").each(function(){
+    this.onclick = function(event) {
+        var lat = $("input[name='marker[latitude]']").val();
+        var lng = $("input[name='marker[longitude]']").val();
+        var new_LatLng = new google.maps.LatLng(lat, lng);
+        geocoder.geocode({'latLng': new_LatLng}, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            map.setCenter(results[0].geometry.location);
+            marker.setPosition(results[0].geometry.location);
+            $("input[name='marker[address]']").val(results[0].formatted_address);
+          } else {
+            alert("Geocode was not successful for the following reason: " + status);
+          }
+        });
+    };
+  });
+
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
 </script>
 
