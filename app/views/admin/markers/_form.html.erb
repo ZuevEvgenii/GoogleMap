@@ -1,6 +1,7 @@
-<%= semantic_form_for [:admin, @marker], :html => {:multipart => true} do |f| %>
+<%= semantic_form_for [:admin, @marker] do |f| %>
       <%= f.inputs "Details" do %>
         <%= f.input :group,  :as => :select, :collection => Group.find(:all) %>
+        <%= f.input :icon,  :as => :select, :collection => Icon.find(:all) %>
         <%= f.input :name %>
         <%= f.input :description %>
         <%= f.input :address %>
@@ -8,7 +9,6 @@
         <%= f.input :longitude %>
         <%= f.input :latitude %>
         <a id="link_detect_by_latlng" style="cursor:pointer; width: 79%; float:right;">Detect on map by coordinates</a><br />
-        <%= f.input :marker_icon, :as => :file %>
       <% end %>
       <%= f.buttons %>
 <% end %>
@@ -45,7 +45,7 @@ function initialize() {
     position: myLatlng,
     title:"Hello World!",
     draggable: true,
-    icon: new google.maps.MarkerImage('<%= @marker.icon %>')
+    icon: new google.maps.MarkerImage('<%= @marker.icon.marker_icon.url(:thumb) %>')
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
