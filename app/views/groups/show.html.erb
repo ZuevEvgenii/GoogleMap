@@ -13,7 +13,10 @@
 <br />
 
 
+
+
 <ul id="markers_list">  </ul>
+<a id="show_distances_link" href="javascript:void(0);">Show distances</a>
 
 <%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => false, "auto_adjust" => @adjust || true},
           "markers" => {
@@ -23,4 +26,24 @@
                                      }
                         }
 ) %>
+
+
+
+<script type="text/javascript">
+var my_details = new Array();
+<% @markers.each do |marker| %>
+  my_details.push('<%= " - " + @location + " (" + marker.distance_to(@location).round(2).to_s + " miles)" %>');
+<% end %>
+
+$("#show_distances_link").each(function(){
+  this.onclick = function(event) {
+    var i=0;
+    $("#markers_list li").each(function(){
+      $(this).append(my_details[i]);
+      i++;
+    });
+    $(this).hide();
+  };
+});
+</script>
 

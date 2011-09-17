@@ -7,10 +7,10 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     search_range = params[:search_range].blank? ? 50 : params[:search_range]
-
-
+    @location = nil
     if params[:search].present?
       @markers = @group.markers.near(params[:search], search_range, :order => :distance)
+      @location = params[:search]
       if @markers.empty?
         @markers = @group.markers
         @adjust = false
@@ -24,6 +24,7 @@ class GroupsController < ApplicationController
         @markers = @group.markers
       end
     end
+
 
 
     respond_to do |format|
