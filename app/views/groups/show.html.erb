@@ -15,7 +15,7 @@
 
 <ul id="markers_list">  </ul>
 
-<%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => false, "auto_adjust" => @adjust || true},
+<%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => false, "auto_adjust" => @adjust || true, "provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"},
           "markers" => {
                         "data" => @markers.to_gmaps4rails,
                         "options" => {
