@@ -1,4 +1,4 @@
-ActiveAdmin.register Marker do
+ActiveAdmin.register Icon do
   form :partial => "form"
 end
 

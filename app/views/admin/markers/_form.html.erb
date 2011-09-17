@@ -1,6 +1,7 @@
-<%= semantic_form_for [:admin, @marker], :html => {:multipart => true} do |f| %>
+<%= semantic_form_for [:admin, @marker] do |f| %>
       <%= f.inputs "Details" do %>
         <%= f.input :group,  :as => :select, :collection => Group.find(:all) %>
+        <%= f.input :icon,  :as => :select, :collection => Icon.find(:all) %>
         <%= f.input :name %>
         <%= f.input :description %>
         <%= f.input :address %>
@@ -8,12 +9,11 @@
         <%= f.input :longitude %>
         <%= f.input :latitude %>
         <a id="link_detect_by_latlng" style="cursor:pointer; width: 79%; float:right;">Detect on map by coordinates</a><br />
-        <%= f.input :marker_icon, :as => :file %>
       <% end %>
       <%= f.buttons %>
 <% end %>
 
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;key=ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"></script>
 
 <div id="map_canvas" style="width:600px; height:400px;"></div>
 
@@ -45,7 +45,7 @@ function initialize() {
     position: myLatlng,
     title:"Hello World!",
     draggable: true,
-    icon: new google.maps.MarkerImage('<%= @marker.icon %>')
+    icon: new google.maps.MarkerImage('<%= @marker.nil? ? @marker.icon.marker_icon.url(:thumb) : '/images/marker.png' %>')
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
