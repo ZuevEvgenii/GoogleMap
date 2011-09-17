@@ -2,13 +2,25 @@
 
 <%= form_tag group_path(@group), :method => :get do %>
   <p>
-    <%= text_field_tag :search, params[:search] %>
+    Near to
+    <%= text_field_tag :search, params[:search], :style => "width: 100px;" %>
+    in radius
+    <%= text_field_tag :search_range, params[:search_range], :style => "width: 30px;" %>
     <%= submit_tag "Search Near", :name => nil %>
   </p>
 <% end %>
 
 <br />
 
+
 <ul id="markers_list">  </ul>
-<%= gmaps("markers" => {"data" => @json, "options" => {"list_container" => "markers_list" } }) %>
+
+<%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => false, "auto_adjust" => @adjust || true},
+          "markers" => {
+                        "data" => @markers.to_gmaps4rails,
+                        "options" => {
+                                      "list_container" => "markers_list"
+                                     }
+                        }
+) %>
 
