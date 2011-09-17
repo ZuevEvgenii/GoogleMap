@@ -3,7 +3,7 @@ Vitiligo::Application.routes.draw do
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  root :to => "countries#index"
+  root :to => "groups#index"
 
   resources :countries
   resources :groups, :only => [:index, :show]

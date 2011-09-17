@@ -13,7 +13,7 @@
       <%= f.buttons %>
 <% end %>
 
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false;key=ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&amp;key=ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"></script>
 
 <div id="map_canvas" style="width:600px; height:400px;"></div>
 
@@ -45,7 +45,7 @@ function initialize() {
     position: myLatlng,
     title:"Hello World!",
     draggable: true,
-    icon: new google.maps.MarkerImage('<%= @marker.icon.marker_icon.url(:thumb) %>')
+    icon: new google.maps.MarkerImage('<%= @marker.nil? ? @marker.icon.marker_icon.url(:thumb) : '/images/marker.png' %>')
   });
 
   google.maps.event.addListener(marker, 'dragend', function() {
