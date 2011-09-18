@@ -15,7 +15,7 @@ class GroupsController < ApplicationController
       if @markers.empty?
         @markers = @group.markers
         @adjust = false
-        flash[:notice] = "There is no objects near you."
+        flash[:notice].now = "There is no objects near you."
       end
     else
       if !request.location.city.blank?
@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
         if @markers.empty?
           @markers = @group.markers
           @adjust = false
-          flash[:notice] = "There is no objects near you."
+          flash[:notice].now = "There is no objects near you."
         end
       else
         @markers = @group.markers
