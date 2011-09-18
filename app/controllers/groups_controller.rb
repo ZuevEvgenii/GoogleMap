@@ -8,6 +8,7 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     search_range = params[:search_range].blank? ? 50 : params[:search_range]
     @location = nil
+    @markers = @group.markers
     if params[:search].present?
       @markers = @group.markers.near(params[:search], search_range, :order => :distance)
       @location = params[:search]
@@ -22,6 +23,7 @@ class GroupsController < ApplicationController
         params[:search] = request.location.country + " , " + request.location.city
       else
         @markers = @group.markers
+        @location = "London"
       end
     end
 

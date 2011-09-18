@@ -20,13 +20,13 @@ class Marker < ActiveRecord::Base
 
 
   def gmaps4rails_marker_picture
-    {
-      "marker_anchor" => [0, true],
-      "rich_marker" => "<img src='#{self.icon.marker_icon.url(:thumb) ? self.icon.marker_icon.url(:thumb) : "/images/marker.png"}'></img>"}
+    image = self.icon ? self.icon.marker_icon.url(:thumb) : "/images/marker.png"
+    return { "marker_anchor" => [0, true],
+      "rich_marker" => "<img src='#{image}'></img>"}
   end
 
   def gmaps4rails_infowindow
-    image = self.icon.marker_icon.url(:thumb) ? "<img src='#{self.icon.marker_icon.url(:thumb)}'></img>" : ""
+    image = self.icon ? "<img src='#{self.icon.marker_icon.url(:thumb)}'></img>" : ""
     "<h1>#{self.name}</h1>" + image + "<p>#{self.address}</p>" + "<p>#{self.description}</p>"
   end
 
