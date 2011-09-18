@@ -22,6 +22,11 @@ class GroupsController < ApplicationController
         @markers = @group.markers.near(request.location.country + " , " + request.location.city, search_range, :order => :distance)
         params[:search] = request.location.country + " , " + request.location.city
         @location = request.location.country + " , " + request.location.city
+        if @markers.empty?
+          @markers = @group.markers
+          @adjust = false
+          flash[:notice] = "There is no objects near you."
+        end
       else
         @markers = @group.markers
         @location = "London"
