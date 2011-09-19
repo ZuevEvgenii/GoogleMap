@@ -13,12 +13,9 @@
 <br />
 
 
-
-
 <ul id="markers_list">  </ul>
 
 
-<a id="show_distances_link" href="javascript:void(0);">Show distances</a>
 
 <%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => true, "auto_adjust" => @adjust || true, "provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"},
           "markers" => {
@@ -43,8 +40,6 @@ Gmaps.map.callback = function() {
       };
     });
    <% end %>
-
-
 
 }
 
