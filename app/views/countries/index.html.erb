@@ -3,60 +3,43 @@
 
 <%= content_for :head do %>
 
-<script type="text/javascript" src="http://maps.google.com/maps?file=api&amp;v=2.x&amp;key=ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"></script>
+  <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+  <script type="text/javascript">
+    google.load('visualization', '1', {packages: ['geomap']});
+
+    function drawVisualization() {
+      var data = new google.visualization.DataTable();
+      <% countries = Country.all %>
+      data.addRows(<%= countries.count %>);
+      data.addColumn('string', 'Country');
+      data.addColumn('number', 'Vitiligo');
+
+      <% countries.each do |country| %>
+        data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.title %>');
+        data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.opacity %>);
+      <% end %>
+
+      var options = {};
+      options['width'] = 765;
+      options['height'] = 455;
+      options['colors'] = [0xEC9090, 0x950000];
+      //options['showZoomOut'] = true;
+      var geomap = new google.visualization.GeoMap(
+          document.getElementById('visualization'));
+      google.visualization.events.addListener(
+        geomap, 'regionClick', function(e) {
+          $("#infoWindow").remove();
+          $('<div id = "infoWindow"> <p> <%= Country.first.title %> </p> <p> Descroption: <%= Country.first.description %> </p> <p> Vitiligo: <%= Country.first.opacity %> </p> </div>').insertAfter("#visualization");
+           alert(e['region']);
+      });
+      geomap.draw(data, options);
+    }
+
+
+    google.setOnLoadCallback(drawVisualization);
+  </script>
 
 <% end %>
-<div id="map_canvas" style="width:1000px; height:500px;"></div>
-<%= content_for :scripts do %>
-<script type="text/javascript" charset="utf-8">
-  function initialize() {
 
-
-  //var my_path = google.maps.geometry.encoding.decodePath("uizpEf}paPnrCa@v@yxEisCsGgA~bF");
-
-
-
-
-  var triangleCoords = [
-  new GLatLng(12.415798000000001, 43.957954000000001),
-  new GLatLng(12.450554000000000, 43.979720999999998),
-  new GLatLng(12.453887999999999, 43.981667000000002),
-  new GLatLng(12.462500000000000, 43.984718000000001),
-  new GLatLng(12.471666000000001, 43.986938000000002),
-  new GLatLng(12.492777000000000, 43.989165999999997),
-  new GLatLng(12.505554000000000, 43.988608999999997),
-  new GLatLng(12.509998000000000, 43.986938000000002),
-  new GLatLng(12.510277000000000, 43.982773000000002),
-  new GLatLng(12.511665000000001, 43.943328999999999),
-  new GLatLng(12.510555000000000, 43.939163000000001),
-  new GLatLng(12.496387000000000, 43.923332000000002),
-  new GLatLng(12.494999000000000, 43.914718999999998),
-  new GLatLng(12.487778000000000, 43.905830000000002),
-  new GLatLng(12.474443000000001, 43.897216999999998),
-  new GLatLng(12.464722000000000, 43.895553999999997),
-  new GLatLng(12.459166000000000, 43.896110999999998),
-  new GLatLng(12.416388000000000, 43.904716000000001),
-  new GLatLng(12.412222000000000, 43.906104999999997),
-  new GLatLng(12.407821999999999, 43.913657999999998),
-  new GLatLng(12.403888999999999, 43.926665999999997),
-  new GLatLng(12.404999000000000, 43.948326000000002),
-  new GLatLng(12.408887999999999, 43.954993999999999),
-  new GLatLng(12.415798000000001, 43.957954000000001)
-
-  ];
-
-  var map = new GMap2(document.getElementById("map_canvas"));
-map.enableScrollWheelZoom();
-
-  map.setCenter(new GLatLng(37.4419, -122.1419), 13);
-
-      var polygon = new GPolygon(triangleCoords, "#f33f00", 5, 1, "#ff0000", 0.2);
-		  map.addOverlay(polygon);
-
-
-
-
-  }
-</script>
-<% end %>
+<div id="visualization" style="width: 765px; height: 455px;"></div>
 
