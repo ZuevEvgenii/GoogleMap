@@ -19,9 +19,9 @@ class GroupsController < ApplicationController
       end
     else
       if !request.location.city.blank?
-        @markers = @group.markers.near(request.location.country + " , " + request.location.city, search_range, :order => :distance)
-        params[:search] = request.location.country + " , " + request.location.city
-        @location = request.location.country + " , " + request.location.city
+        @markers = @group.markers.near(request.location.country + " , " + request.location.city + " , " + request.location.address, search_range, :order => :distance)
+        params[:search] = request.location.country + " , " + request.location.city + " , " + request.location.address
+        @location = request.location.country + " , " + request.location.city + " , " + request.location.address
         if @markers.empty?
           @markers = @group.markers
           @adjust = false

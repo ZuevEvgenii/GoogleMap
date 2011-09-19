@@ -16,32 +16,38 @@
 
 
 <ul id="markers_list">  </ul>
+
+
 <a id="show_distances_link" href="javascript:void(0);">Show distances</a>
 
 <%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => true, "auto_adjust" => @adjust || true, "provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"},
           "markers" => {
                         "data" => @markers.to_gmaps4rails,
                         "options" => {
-                                      "list_container" => "markers_list"
+
                                      }
                         }
 ) %>
 
-<script type="text/javascript">
-var my_details = new Array();
-<% @markers.each do |marker| %>
-  my_details.push('<%= " - " + @location + " (" + marker.distance_to(@location).round(2).to_s + " miles)" %>');
-<% end %>
 
-$("#show_distances_link").each(function(){
-  this.onclick = function(event) {
-    var i=0;
-    $("#markers_list li").each(function(){
-      $(this).append(my_details[i]);
-      i++;
+<% content_for :scripts do %>
+<script type="text/javascript">
+Gmaps.map.callback = function() {
+
+   <% @markers.each do |marker| %>
+    $("#markers_list").append('<li><a id="marker_link_<%= marker.id.to_s %>" href="javascript:void(0);"><%= marker.name + " - " + @location + " (" + marker.distance_to(@location).round(2).to_s + " miles)" %></a></li>');
+    $("#marker_link_<%= marker.id.to_s %>").each(function(){
+      this.onclick = function(event) {
+        var marker_lat_lng = new google.maps.LatLng(<%= marker.latitude %>, <%= marker.longitude %>);
+        Gmaps.map.map.panTo(marker_lat_lng);
+      };
     });
-    $(this).hide();
-  };
-});
+   <% end %>
+
+
+
+}
+
 </script>
+<% end %>
 
