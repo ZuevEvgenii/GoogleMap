@@ -23,7 +23,7 @@ class GroupsController < ApplicationController
         #params[:search] = request.location.country + " , " + request.location.city + " , " + request.location.address
         @location = request.location.country + " , " + request.location.city + " , " + request.location.address
         #@markers = @group.markers.near(request.location.latitude.to_s + request.location.longitude.to_s, search_range, :order => :distance)
-        params[:search] = request.location.latitude.to_s + request.location.longitude.to_s
+        params[:search] = request.location.latitude.round(15).to_s + ", " + request.location.longitude.round(15).to_s
         #@location = request.location.latitude.to_s + request.location.longitude.to_s
         if @markers.empty?
           @markers = @group.markers
