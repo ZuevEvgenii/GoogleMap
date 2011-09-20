@@ -26,11 +26,12 @@
       data.addRows(<%= @countries.count %>);
       data.addColumn('string', 'Country');
       data.addColumn('number', 'Vitiligo');
-
+      i = 0;
       <% if !@countries.nil? %>
         <% @countries.each do |country| %>
-          data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.country_list.name %>');
-          data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.value %>);
+          data.setValue(i, 0, '<%= country.country_list.name %>');
+          data.setValue(i, 1, <%= country.value %>);
+          i +=1;
         <% end %>
       <% end %>
 

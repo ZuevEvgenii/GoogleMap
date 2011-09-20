@@ -8,5 +8,13 @@ class CountryList < ActiveRecord::Base
     end
     result
   end
+
+  def self.restik(country)
+    result = []
+    CountryList.all.each do |c|
+      result << c if c.country == nil
+    end
+    result << CountryList.find(country.country_list.id)
+  end
 end
 

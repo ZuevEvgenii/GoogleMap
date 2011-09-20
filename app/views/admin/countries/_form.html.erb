@@ -1,6 +1,10 @@
 <%= semantic_form_for [:admin, @country] do |f| %>
-      <%= f.inputs "Details" do %>
-        <%= f.input :country_list,  :as => :select, :collection => CountryList.rest %>
+        <%= f.inputs "Details" do %>
+        <% if controller.action_name == 'new' %>
+          <%= f.input :country_list,  :as => :select, :collection =>  CountryList.rest %>
+        <% else %>
+          <%= f.input :country_list,  :as => :select, :collection =>  CountryList.restik(@country) %>
+        <% end %>
         <%= f.input :description %>
         <%= f.input :value %>
       <% end %>
