@@ -29,8 +29,8 @@
 
       <% if !@countries.nil? %>
         <% @countries.each do |country| %>
-          data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.title %>');
-          data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.opacity %>);
+          data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.country_list.name %>');
+          data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.value %>);
         <% end %>
       <% end %>
 

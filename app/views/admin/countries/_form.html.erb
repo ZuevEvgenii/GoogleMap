@@ -1,0 +1,9 @@
+<%= semantic_form_for [:admin, @country] do |f| %>
+      <%= f.inputs "Details" do %>
+        <%= f.input :country_list,  :as => :select, :collection => CountryList.rest %>
+        <%= f.input :description %>
+        <%= f.input :value %>
+      <% end %>
+      <%= f.buttons %>
+<% end %>
+

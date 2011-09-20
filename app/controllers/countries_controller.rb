@@ -5,7 +5,7 @@ class CountriesController < ApplicationController
   end
 
   def country_click
-    @country = Country.find_by_title(CountryList.find_by_code(params[:region_code]).name)
+    @country = CountryList.find_by_code(params[:region_code]).country
     respond_to do |format|
 		  format.js
 		end
