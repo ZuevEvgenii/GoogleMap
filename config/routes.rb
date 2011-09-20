@@ -4,9 +4,10 @@ Vitiligo::Application.routes.draw do
   devise_for :admin_users, ActiveAdmin::Devise.config
 
   root :to => "home#index"
-
+  match '/countries/country_click' => 'countries#country_click', :as => :country_click
   resources :countries
   resources :groups, :only => [:index, :show]
+
 
 
   # The priority is based upon order of creation:

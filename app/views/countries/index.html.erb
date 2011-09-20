@@ -9,12 +9,11 @@
 
     function drawVisualization() {
       var data = new google.visualization.DataTable();
-      <% countries = Country.all %>
-      data.addRows(<%= countries.count %>);
+      data.addRows(<%= @countries.count %>);
       data.addColumn('string', 'Country');
       data.addColumn('number', 'Vitiligo');
 
-      <% countries.each do |country| %>
+      <% @countries.each do |country| %>
         data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.title %>');
         data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.opacity %>);
       <% end %>
@@ -22,24 +21,26 @@
       var options = {};
       options['width'] = 765;
       options['height'] = 455;
-      options['colors'] = [0xEC9090, 0x950000];
+      //options['colors'] = [0xEC9090, 0x950000];
       //options['showZoomOut'] = true;
       var geomap = new google.visualization.GeoMap(
           document.getElementById('visualization'));
       google.visualization.events.addListener(
         geomap, 'regionClick', function(e) {
           $("#infoWindow").remove();
-          $('<div id = "infoWindow"> <p> <%= Country.first.title %> </p> <p> Descroption: <%= Country.first.description %> </p> <p> Vitiligo: <%= Country.first.opacity %> </p> </div>').insertAfter("#visualization");
-           alert(e['region']);
+          $.get("/countries/country_click", { region_code: e['region']});
+
       });
       geomap.draw(data, options);
     }
-
-
     google.setOnLoadCallback(drawVisualization);
   </script>
 
 <% end %>
 
 <div id="visualization" style="width: 765px; height: 455px;"></div>
+
+<div id="dialog">
+
+</div>
 
