@@ -1,3 +1,8 @@
-$('<div id = "infoWindow" title = <%= @country.title %> > <p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.opacity %> </p> </div>').insertAfter("#visualization");
-$('#infoWindow').dialog();
+<% if !@country.nil? %>
+  $('<div id = "infoWindow" title = <%= @country.title %> > <p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.opacity %> </p> </div>').insertAfter("#visualization");
+  $('#infoWindow').dialog({ position: [mouseX, mouseY]  });
+<% else %>
+    $('<div id = "infoWindow" title = "No data"> <p>For this country we have no data.</p></div>').insertAfter("#visualization");
+  $('#infoWindow').dialog({ position: [mouseX, mouseY]  });
+<% end %>
 

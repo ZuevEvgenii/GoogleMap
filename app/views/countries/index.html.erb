@@ -5,6 +5,20 @@
 
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
+
+    jQuery(document).ajaxStart(function(){
+      $('#loading').show();
+    });
+
+    jQuery(document).ajaxStop(function(){
+      $('#loading').hide();
+    });
+
+     $(document).click(function(e){
+          mouseX = e.pageX;
+          mouseY = e.pageY;
+       });
+
     google.load('visualization', '1', {packages: ['geomap']});
 
     function drawVisualization() {
@@ -13,9 +27,11 @@
       data.addColumn('string', 'Country');
       data.addColumn('number', 'Vitiligo');
 
-      <% @countries.each do |country| %>
-        data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.title %>');
-        data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.opacity %>);
+      <% if !@countries.nil? %>
+        <% @countries.each do |country| %>
+          data.setValue(<%= country.id.to_i - 1.to_i %>, 0, '<%= country.title %>');
+          data.setValue(<%= country.id.to_i - 1.to_i %>, 1, <%= country.opacity %>);
+        <% end %>
       <% end %>
 
       var options = {};
@@ -29,18 +45,17 @@
         geomap, 'regionClick', function(e) {
           $("#infoWindow").remove();
           $.get("/countries/country_click", { region_code: e['region']});
-
       });
       geomap.draw(data, options);
     }
     google.setOnLoadCallback(drawVisualization);
   </script>
 
+
 <% end %>
 
 <div id="visualization" style="width: 765px; height: 455px;"></div>
 
-<div id="dialog">
-
+<div id="loading" style="display: none; position: absolute; left: 15px; top: 15px;"><img id="loader" src="images/circle.gif" alt="Loading"/>
 </div>
 
