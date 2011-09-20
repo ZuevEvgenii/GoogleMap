@@ -1,0 +1,18 @@
+<html>
+<head>
+<title>Google Maps JavaScript API v3 Example: Common Loader</title>
+<script src="http://www.google.com/jsapi&amp;key=ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg" language="javascript"></script>
+<script language="javascript">
+if (google.loader.ClientLocation != null) {
+  alert(google.loader.ClientLocation.address);
+} else {
+  alert("Not found");
+}
+</script>
+</head>
+<body>
+<div style="width:700;height:700" id="map"></div>
+<div id="location"></div>
+</body>
+</html>
+
