@@ -34,3 +34,32 @@
 
         <div id="map-canvas" style="width: 500px; height: 400px"></div>
 
+
+<script type="text/javascript">
+Gmaps.map.callback = function() {
+
+   <% @markers.each do |marker| %>
+    $("#markers_list").append('<li><a id="marker_link_<%= marker.id.to_s %>" href="javascript:void(0);"><%= marker.name + " - " + @location + " (" + marker.distance_to(@location).round(2).to_s + " miles)" %></a></li>');
+    $("#marker_link_<%= marker.id.to_s %>").each(function(){
+      this.onclick = function(event) {
+        var marker_lat_lng = new google.maps.LatLng(<%= marker.latitude %>, <%= marker.longitude %>);
+        Gmaps.map.map.panTo(marker_lat_lng);
+      };
+    });
+   <% end %>
+
+}
+
+</script>
+
+
+<%= form_tag group_path(@group), :method => :get do %>
+  <p>
+    Near to
+    <%= text_field_tag :search, params[:search], :style => "width: 100px;" %>
+    in radius
+    <%= text_field_tag :search_range, params[:search_range], :style => "width: 30px;" %>
+    <%= submit_tag "Search Near", :name => nil %>
+  </p>
+<% end %>
+

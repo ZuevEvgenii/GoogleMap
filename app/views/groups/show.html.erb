@@ -1,48 +1,97 @@
 <h1><%= @group.title %></h1>
-
-<%= form_tag group_path(@group), :method => :get do %>
-  <p>
-    Near to
-    <%= text_field_tag :search, params[:search], :style => "width: 100px;" %>
-    in radius
-    <%= text_field_tag :search_range, params[:search_range], :style => "width: 30px;" %>
-    <%= submit_tag "Search Near", :name => nil %>
-  </p>
-<% end %>
-
 <br />
+
+<input id="query"></input>
+
+<select id="range">
+  <option value="15">15 km</option>
+  <option value="50">50</option>
+  <option value="150">150</option>
+  <option value="300">300</option>
+  <option value="99999999">Infinity</option>
+</select>
+
+<a id="test_link">go</a>
+<a id="upd">update_markers</a>
 
 
 <ul id="markers_list">  </ul>
 
+<%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"}) %>
 
-
-<%= gmaps("map_options" => {"zoom" => 1, "detect_location" => false, "center_on_user" => true, "auto_adjust" => @adjust || true, "provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"},
-          "markers" => {
-                        "data" => @markers.to_gmaps4rails,
-                        "options" => {
-
-                                     }
-                        }
-) %>
 
 
 <% content_for :scripts do %>
 <script type="text/javascript">
-Gmaps.map.callback = function() {
+  var markers;
+  var original_map;
+  var client_location;
+  var location_string = "london";
+  var geocoder = new google.maps.Geocoder();
 
-   <% @markers.each do |marker| %>
-    $("#markers_list").append('<li><a id="marker_link_<%= marker.id.to_s %>" href="javascript:void(0);"><%= marker.name + " - " + @location + " (" + marker.distance_to(@location).round(2).to_s + " miles)" %></a></li>');
-    $("#marker_link_<%= marker.id.to_s %>").each(function(){
-      this.onclick = function(event) {
-        var marker_lat_lng = new google.maps.LatLng(<%= marker.latitude %>, <%= marker.longitude %>);
-        Gmaps.map.map.panTo(marker_lat_lng);
-      };
+  // определение положения пользователя
+  function locate_client_position(){
+  navigator.geolocation.getCurrentPosition(successCallback,
+                                             errorCallback,
+                                             {maximumAge:600000});
+                                             }
+  function successCallback(position) {
+    client_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+    geocoder.geocode({'latLng': client_location}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        if (results[0]) {
+          jQuery("#query").val(results[0].formatted_address);
+          update_markers();
+          new google.maps.Marker({
+              position: client_location,
+              map: original_map,
+              title:"Setted position."
+          });
+        }
+      } else { alert("geocoding failed") }
     });
-   <% end %>
+  };
+  function errorCallback(error) {
+    alert("Location did not detected.");
+  };
+  // конец определения положения пользователя
 
-}
 
+
+
+  function update_markers(){
+    jQuery.getJSON('/groups/<%= @group.id %>/get_markers.json', { query: jQuery("#query").val(), range: jQuery("#range").val() }, function(data) {
+      markers = data;
+      Gmaps.map.replaceMarkers(data);
+
+    });
+  };
+
+
+  jQuery("#test_link").click(function(event) {
+    update_markers();
+  });
+  jQuery("#upd").click(function(event) {
+    $("#markers_list").html("");
+    var i=0;
+    for (i=0;i<markers.length;i++) {
+      $("#markers_list").append("<li><a lat='" + markers[i].lat + "' lng='" + markers[i].lng + "' href='javascript:void(0);'>" + markers[i].sidebar  + " ( + дистанс +  miles)</a></li>");
+    }
+    //alert(markers);
+
+    $("#markers_list li a").click(function(event) {
+        Gmaps.map.map.panTo(new google.maps.LatLng($(this).attr("lat"), $(this).attr("lng")));
+    });
+  });
+
+
+  Gmaps.map.callback = function() {
+    original_map = Gmaps.map.map;
+    locate_client_position();
+    //alert(Gmaps.map.markers[0].lat);
+    //update_list();
+
+  };
 </script>
 <% end %>
 
