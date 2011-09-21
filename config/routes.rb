@@ -6,7 +6,10 @@ Vitiligo::Application.routes.draw do
   root :to => "home#index"
   match '/countries/country_click' => 'countries#country_click', :as => :country_click
   resources :countries
-  resources :groups, :only => [:index, :show]
+  resources :groups do
+    get :get_markers, :on => :member
+    post :sidebar, :on => :member
+  end
 
 
 
