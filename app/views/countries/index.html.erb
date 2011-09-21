@@ -25,12 +25,14 @@
       var data = new google.visualization.DataTable();
       data.addRows(<%= @countries.count %>);
       data.addColumn('string', 'Country');
-      data.addColumn('number', 'Vitiligo');
+      data.addColumn('number', 'Vitiligo prevalence (%)');
+      data.addColumn('string', 'Name');
       i = 0;
       <% if !@countries.nil? %>
         <% @countries.each do |country| %>
-          data.setValue(i, 0, '<%= country.country_list.name %>');
+          data.setValue(i, 0, '<%= country.country_list.code %>');
           data.setValue(i, 1, <%= country.value %>);
+          data.setValue(i, 2, '<%= country.country_list.name %>');
           i +=1;
         <% end %>
       <% end %>
