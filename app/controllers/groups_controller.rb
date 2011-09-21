@@ -65,5 +65,16 @@ class GroupsController < ApplicationController
     end
     respond_with @markers.to_gmaps4rails
   end
+
+  def sidebar
+    @marker = Marker.where(:latitude => params[:lat], :longitude => params[:lng]).first
+
+    @location = params[:location]
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
 end
 

@@ -1,4 +1,9 @@
 class Marker < ActiveRecord::Base
+  @@current_location
+
+  def self.set_loc(loc)
+    @@current_location = loc
+  end
 
   geocoded_by :address
 
@@ -15,7 +20,7 @@ class Marker < ActiveRecord::Base
   end
 
   def gmaps4rails_sidebar
-    self.name
+    self.name + " (#{self.address})"
   end
 
 

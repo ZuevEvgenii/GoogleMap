@@ -8,6 +8,7 @@ Vitiligo::Application.routes.draw do
   resources :countries
   resources :groups do
     get :get_markers, :on => :member
+    post :sidebar, :on => :member
   end
 
 
