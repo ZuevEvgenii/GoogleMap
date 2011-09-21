@@ -6,18 +6,19 @@
   <script type="text/javascript" src="http://www.google.com/jsapi"></script>
   <script type="text/javascript">
 
+     $(document).click(function(e){
+          mouseX = e.pageX;
+          mouseY = e.pageY;
+       });
+
     jQuery(document).ajaxStart(function(){
       $('#loading').show();
     });
 
     jQuery(document).ajaxStop(function(){
       $('#loading').hide();
+      $( "#dialog" ).dialog();//{ position: [mouseX, mouseY], resizable: false, minHeight: 30  });
     });
-
-     $(document).click(function(e){
-          mouseX = e.pageX;
-          mouseY = e.pageY;
-       });
 
     google.load('visualization', '1', {packages: ['geomap']});
 
@@ -61,4 +62,6 @@
 
 <div id="loading" style="display: none; position: absolute; left: 15px; top: 15px;"><img id="loader" src="images/circle.gif" alt="Loading"/>
 </div>
+
+<div id="dialog"> </div>
 

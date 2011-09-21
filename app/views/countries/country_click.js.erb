@@ -1,5 +1,5 @@
 <% if !@country.nil? %>
-  $('<div id = "infoWindow" title = <%= @country.country_list.name %> > <p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p> </div>').insertAfter("#visualization");
-  $('#infoWindow').dialog({ position: [mouseX, mouseY]  });
+
+  $('#dialog').html('<h1><%= @country.country_list.name %></h1><p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p>');
 <% end %>
 
