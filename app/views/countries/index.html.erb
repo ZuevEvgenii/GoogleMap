@@ -29,7 +29,7 @@
       i = 0;
       <% if !@countries.nil? %>
         <% @countries.each do |country| %>
-          data.setValue(i, 0, '<%= country.country_list.name %>');
+          data.setValue(i, 0, '<%= country.country_list.code %>');
           data.setValue(i, 1, <%= country.value %>);
           i +=1;
         <% end %>
