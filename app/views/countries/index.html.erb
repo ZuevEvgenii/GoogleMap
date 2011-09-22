@@ -15,9 +15,12 @@
       $('#loading').show();
     });
 
-    jQuery(document).ajaxStop(function(){
+    jQuery(document).ajaxStop(function(e){
       $('#loading').hide();
-      $( "#dialog" ).dialog();//{ position: [mouseX, mouseY], resizable: false, minHeight: 30  });
+      if ($(".no_result").length == 0 && $.browser.mozilla)
+        {$( "#dialog" ).dialog({ position: [mouseX, mouseY], resizable: false, minHeight: 30 });}
+      else if($(".no_result").length == 0)
+        {$( "#dialog" ).dialog({ position: ['left','top'], resizable: false, minHeight: 30 });}//{ position: [mouseX, mouseY], resizable: false, minHeight: 30  });
     });
 
     google.load('visualization', '1', {packages: ['geomap']});

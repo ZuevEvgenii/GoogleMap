@@ -1,5 +1,9 @@
 <% if !@country.nil? %>
-
-  $('#dialog').html('<h1><%= @country.country_list.name %></h1><p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p>');
+  $('#dialog').removeClass('no_result');
+  $('#dialog').attr('title', '<%= @country.country_list.name %>');
+  $("span.ui-dialog-title").text('<%= @country.country_list.name %>');
+  $('#dialog').html('<p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p>');
+<% else %>
+  $('#dialog').addClass('no_result');
 <% end %>
 
