@@ -64,7 +64,7 @@ class GroupsController < ApplicationController
       @markers = @group.markers.near(params[:query], range, :order => :distance)
       if @markers.empty?
         #@markers = @group.markers
-        @markers << @group.markers.near([ params[:lat].to_f, params[:lng].to_f ], 999999999, :order => :distance).first
+        @markers << @group.markers.near(params[:query], 999999999, :order => :distance).first
       end
       @markers << Marker.new(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
 #      im = "
