@@ -1,10 +1,4 @@
 class Marker < ActiveRecord::Base
-  @@current_location
-
-  def self.set_loc(loc)
-    @@current_location = loc
-  end
-
   geocoded_by :address
 
   after_validation :geocode, :if => :address_changed?
