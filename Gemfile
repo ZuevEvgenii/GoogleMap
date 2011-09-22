@@ -11,7 +11,7 @@ gem 'jquery-rails'
 
 gem 'activeadmin'
 
-gem 'gmaps4rails'
+gem 'gmaps4rails', '1.1.6'
 
 gem 'geocoder'
 
