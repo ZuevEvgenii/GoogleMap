@@ -1,69 +1,41 @@
+<div id="tabs">
+	<ul>
+		<li><a href="#tabs-0">Countries</a></li>
 
+		<% @groups.each do |group| %>
+	  <li><a href="#<%= group.id %>" class="group_link" goal = "<%= group.id %>" ><%= group.title %></a></li>
+	  <% end %>
 
-
-
-
-<div id="accordionResizer" style="margin-left:auto;margin-right:auto;padding:10px; width:850px; height:600px;" class="ui-widget-content">
-
-<div id="accordion">
-	<h3><a href="#">Countries</a></h3>
-	<div id="countries">
-    <iframe src="/countries" style="width: 100%; height: 98%;">
+	</ul>
+	<div id="tabs-0">
+    <iframe src="/countries" style="width: 100%; height: 700px;">
       Ваш браузер не поддерживает плавающие фреймы!
     </iframe>
 	</div>
 
 	<% @groups.each do |group| %>
-		<h3><a class="group_link" href="#"><%= group.title %></a></h3>
-	  <div id="<%= group.id %>" class="group_div" style="padding:1px;">
-
-	  </div>
+	  <div id="<%= group.id %>" class="group_div"></div>
 	<% end %>
+
 </div>
-
-<span class="ui-icon ui-icon-grip-dotted-horizontal" style="margin:2px auto;"></span>
-</div><!-- End accordionResizer -->
-
-
-
-
-
-
-
-
 
 	<script>
 	$(function() {
-		$("#accordion").accordion({
-			fillSpace: true
-		});
-	});
-	$(function() {
-		$("#accordionResizer").resizable({
-			minHeight: 140,
-			resize: function() {
-				$("#accordion").accordion( "resize" );
-			}
-		});
+		$( "#tabs" ).tabs();
 	});
 
-	$(function() {
+		$(function() {
 
 	  $(".group_link").each(function(){
       this.onclick = function(event) {
-        var current_div = $(this).parent().next(".group_div");
         $(".group_div").each(function(){
           $(this).html("");
         });
-
-
-        $(current_div).html("<iframe src='/groups/" + $(current_div).attr("id") + "' style='width: 100%; height: 98%;'>Ваш браузер не поддерживает плавающие фреймы!</iframe>")
+        $($(this).attr("href")).html("<iframe src='/groups/" + $(this).attr("goal") + "' style='width: 100%; height: 700px;'>Ваш браузер не поддерживает плавающие фреймы!</iframe>")
       };
     });
 
 	});
-
-
 
 	</script>
 
