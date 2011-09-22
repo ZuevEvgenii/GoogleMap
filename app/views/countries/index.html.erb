@@ -17,7 +17,8 @@
 
     jQuery(document).ajaxStop(function(){
       $('#loading').hide();
-      $( "#dialog" ).dialog();//{ position: [mouseX, mouseY], resizable: false, minHeight: 30  });
+      if ($(".no_result").length == 0)
+        {$( "#dialog" ).dialog();}//{ position: [mouseX, mouseY], resizable: false, minHeight: 30  });
     });
 
     google.load('visualization', '1', {packages: ['geomap']});
