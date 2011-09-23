@@ -56,14 +56,29 @@ class GroupsController < ApplicationController
     @group = Group.find(params[:id])
     range = params[:range].blank? ? 15 : params[:range]
     if params[:query].present?
+
+      #str = params[:query].chop
+      #str.slice!(0)
+      #coords = str.split(', ')
+
       @markers = @group.markers.near(params[:query], range, :order => :distance)
       if @markers.empty?
-        @markers = @group.markers
+        #@markers = @group.markers
+        @markers << @group.markers.near(params[:query], 999999999, :order => :distance).first
       end
+      @markers << Marker.new(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
+#      im = "
+#      {'description': '<h1>Your position</h1>', 'sidebar': 'Your position','lng': '#{params[:lat]}',
+#  'lat': '#{params[:lng]}', 'marker_anchor': [0, true], 'rich_marker': '<img src=''/images/client_arrow.png''></img>'},
+#      "
     else
       @markers = @group.markers
     end
+    #@result = @markers.to_gmaps4rails
+
+
     respond_with @markers.to_gmaps4rails
+
   end
 
   def sidebar

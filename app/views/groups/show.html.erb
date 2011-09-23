@@ -15,8 +15,8 @@ km
 <a id="search_link" href='javascript:void(0);'>Search</a>
 
 
-
 <%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RQNIUD9-_P9dKRT5ZjrSILxyI7CoBQpHs-Sr82X9HZS53r9gFUHbaSdvg"}) %>
+Nearest objects:
 <ul id="markers_list">  </ul>
 <% content_for :scripts do %>
 <script type="text/javascript">
@@ -24,6 +24,8 @@ km
   var markers;
   var original_map;
   var client_location;
+  var client_location_lat;
+  var client_location_lng;
   var location_latlng;
   var location_string = "london";
   var geocoder = new google.maps.Geocoder();
@@ -35,6 +37,8 @@ km
                                                {maximumAge:600000});
   }
   function successCallback(position) {
+    client_location_lat = position.coords.latitude;
+    client_location_lng = position.coords.longitude;
     client_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
     geocoder.geocode({'latLng': client_location}, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
@@ -43,12 +47,12 @@ km
           location_string = results[0].formatted_address;
 
           update_markers();
-          client_marker = new google.maps.Marker({
-              position: client_location,
-              map: original_map,
-              title:"You are here",
-              icon: "/images/client_arrow.png"
-          });
+          //client_marker = new google.maps.Marker({
+          //    position: client_location,
+          //    map: original_map,
+          //    title:"You are here",
+          //    icon: "/images/client_arrow.png"
+          //});
 
         }
       } else { alert("geocoding failed") }
@@ -61,12 +65,14 @@ km
 
   function update_markers(){
     location_string = jQuery("#query").val();
-    jQuery.getJSON('/groups/<%= @group.id %>/get_markers.json', { query: jQuery("#query").val(), range: jQuery("#range").val() }, function(data) {
-      markers = data;
+            //alert(client_location_lat);
+            jQuery.getJSON('/groups/<%= @group.id %>/get_markers.json', {query: $("#query").val(), lat: client_location_lat, lng: client_location_lng, range: jQuery("#range").val() }, function(data) {
+              //alert(data);
+              markers = data;
 
-      Gmaps.map.replaceMarkers(data);
-      update_list();
-    });
+              Gmaps.map.replaceMarkers(data);
+              update_list();
+            });
   };
 
 

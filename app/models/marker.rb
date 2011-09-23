@@ -21,7 +21,14 @@ class Marker < ActiveRecord::Base
 
 
   def gmaps4rails_marker_picture
+
+
     image = self.icon ? self.icon.marker_icon.url(:thumb) : "/images/marker.png"
+
+    if self.name == "Your position"
+      image = "/images/client_arrow.png"
+    end
+
     return { "marker_anchor" => [0, true],
       "rich_marker" => "<img src='#{image}'></img>"}
   end
