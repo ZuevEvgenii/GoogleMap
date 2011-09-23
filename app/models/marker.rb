@@ -1,4 +1,6 @@
 class Marker < ActiveRecord::Base
+  validates_presence_of :name, :group, :address
+
   geocoded_by :address
 
   after_validation :geocode, :if => :address_changed?
