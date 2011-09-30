@@ -1,7 +1,10 @@
 <%= semantic_form_for [:admin, @marker] do |f| %>
       <%= f.inputs "Details" do %>
         <%= f.input :group,  :as => :select, :collection => Group.find(:all) %>
-        <%= f.input :icon,  :as => :select, :collection => Icon.find(:all) %>
+        <% Icon.all.each do |icon| %>
+          <%= image_tag(icon.marker_icon.url(:marker_preview)) %>
+          <%= f.radio_button(:icon_id, icon.id) %>
+        <% end %>
         <%= f.input :name %>
         <%= f.input :description %>
         <%= f.input :address %>
