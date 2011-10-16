@@ -1,5 +1,7 @@
-$("#markers_list").append("<li><a lat='<%= @marker.latitude.to_s %>' lng='<%= @marker.longitude.to_s %>' href='javascript:void(0);'><%= @marker.gmaps4rails_sidebar + " - " + @location + " (" + @marker.distance_to(@location).round(2).to_s + "km)" %></a></li>");
-$("#markers_list li a").click(function(event) {
-  Gmaps.map.map.panTo(new google.maps.LatLng($(this).attr("lat"), $(this).attr("lng")));
-});
+<% if @marker %>
+  $("#markers_list").append("<li><a lat='<%= @marker.latitude.to_s %>' lng='<%= @marker.longitude.to_s %>' href='javascript:void(0);'><%= @marker.gmaps4rails_sidebar + " - " + @location + " (" + @marker.distance_to(@location).round(2).to_s + "km)" %></a></li>");
+  $("#markers_list li a").click(function(event) {
+    Gmaps.map.map.panTo(new google.maps.LatLng($(this).attr("lat"), $(this).attr("lng")));
+  });
+<% end %>
 
