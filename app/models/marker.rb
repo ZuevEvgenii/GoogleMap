@@ -1,4 +1,5 @@
 class Marker < ActiveRecord::Base
+  include ActionView::Helpers::JavaScriptHelper
   validates_presence_of :name, :group, :address
 
   geocoded_by :address
@@ -6,10 +7,10 @@ class Marker < ActiveRecord::Base
   after_validation :geocode, :if => :address_changed?
 
   acts_as_gmappable
-
   belongs_to :group
-
   belongs_to :icon
+
+  before_save :check_html
 
   def gmaps4rails_address
     self.address
@@ -40,6 +41,10 @@ class Marker < ActiveRecord::Base
 
   def iconka
     "#{self.icon.marker_icon.url(:thumb) ? self.icon.marker_icon.url(:thumb) : "/images/marker.png"}"
+  end
+
+  def check_html
+    self.description = escape_javascript(self.description)
   end
 
 end

@@ -65,12 +65,25 @@ Nearest objects:
 
   function update_markers(){
     location_string = jQuery("#query").val();
+
+
             //alert(client_location_lat);
             jQuery.getJSON('/groups/<%= @group.id %>/get_markers.json', {query: $("#query").val(), lat: client_location_lat, lng: client_location_lng, range: jQuery("#range").val() }, function(data) {
               //alert(data);
               markers = data;
 
               Gmaps.map.replaceMarkers(data);
+
+              Gmaps.map.boundsObject = Gmaps.map.createLatLngBounds();
+
+              for (i=0;i<markers.length;i++) {
+                if(markers[i].bounded==true) {
+                  Gmaps.map.boundsObject.extend(new google.maps.LatLng(markers[i].lat, markers[i].lng));
+                }
+              }
+              Gmaps.map.fitBounds();
+
+
               update_list();
             });
   };
@@ -85,8 +98,12 @@ Nearest objects:
     var i=0;
     for (i=0;i<markers.length;i++) {
       //$("#markers_list").append("<li><a lat='" + markers[i].lat + "' lng='" + markers[i].lng + "' href='javascript:void(0);'>" + markers[i].sidebar + " - miles to " + location_string + "</a></li>");
-      $.post("/groups/<%= @group.id %>/sidebar", { lat: markers[i].lat, lng: markers[i].lng, location: location_string}, function() {});
+      if(markers[i].bounded==true) {
+        $.post("/groups/<%= @group.id %>/sidebar", { lat: markers[i].lat, lng: markers[i].lng, location: location_string}, function() {});
+      }
     }
+
+
     //$("#markers_list li a").click(function(event) {
     //    Gmaps.map.map.panTo(new google.maps.LatLng($(this).attr("lat"), $(this).attr("lng")));
     //});
@@ -96,6 +113,8 @@ Nearest objects:
   Gmaps.map.callback = function() {
     original_map = Gmaps.map.map;
     locate_client_position();
+    $(".map_container").width(615);
+    $("#map").width(615);
   };
 </script>
 <% end %>

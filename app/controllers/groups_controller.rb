@@ -66,7 +66,11 @@ class GroupsController < ApplicationController
         #@markers = @group.markers
         @markers << @group.markers.near(params[:query], 999999999, :order => :distance).first
       end
-      @markers << Marker.new(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
+      #@markers << Marker.new(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
+      #@group.markers.build(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
+      position = Geocoder.search(params[:query])
+      #logger.debug position
+      @group.markers.build(:latitude => position[0].latitude, :longitude => position[0].longitude, :name => "Your position", :address => "")
 #      im = "
 #      {'description': '<h1>Your position</h1>', 'sidebar': 'Your position','lng': '#{params[:lat]}',
 #  'lat': '#{params[:lng]}', 'marker_anchor': [0, true], 'rich_marker': '<img src=''/images/client_arrow.png''></img>'},
@@ -76,8 +80,15 @@ class GroupsController < ApplicationController
     end
     #@result = @markers.to_gmaps4rails
 
+    @result = @group.markers.to_gmaps4rails do |obj, marker|
+      if @markers.include?(obj) || obj.id.nil?
+        marker.json "\"bounded\": true"
+      else
+        marker.json "\"bounded\": false"
+      end
+    end
 
-    respond_with @markers.to_gmaps4rails
+    respond_with @result
 
   end
 
