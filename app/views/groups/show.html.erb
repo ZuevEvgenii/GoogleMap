@@ -5,9 +5,9 @@ Near to<input id="query"></input>
 in radius
 <select id="range">
   <option value="15">15 km</option>
-  <option value="50">50</option>
-  <option value="150">150</option>
-  <option value="300">300</option>
+  <option value="50">50 km</option>
+  <option value="150">150 km</option>
+  <option value="300">300 km</option>
   <option value="99999999">Infinity</option>
 </select>
 km
@@ -111,10 +111,10 @@ Nearest objects:
 
 
   Gmaps.map.callback = function() {
-    original_map = Gmaps.map.map;
-    locate_client_position();
     $(".map_container").width(615);
     $("#map").width(615);
+    original_map = Gmaps.map.map;
+    locate_client_position();
   };
 </script>
 <% end %>

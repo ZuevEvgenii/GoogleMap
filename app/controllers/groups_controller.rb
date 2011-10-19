@@ -70,7 +70,7 @@ class GroupsController < ApplicationController
       #@group.markers.build(:latitude => params[:lat].to_f, :longitude => params[:lng].to_f, :name => "Your position", :address => "") if params[:lat].present? && params[:lng].present?
       position = Geocoder.search(params[:query])
       #logger.debug position
-      @group.markers.build(:latitude => position[0].latitude, :longitude => position[0].longitude, :name => "Your position", :address => "")
+      @group.markers.build(:latitude => position[0].latitude, :longitude => position[0].longitude, :name => "Your position", :address => "") if !position.empty?
 #      im = "
 #      {'description': '<h1>Your position</h1>', 'sidebar': 'Your position','lng': '#{params[:lat]}',
 #  'lat': '#{params[:lng]}', 'marker_anchor': [0, true], 'rich_marker': '<img src=''/images/client_arrow.png''></img>'},
