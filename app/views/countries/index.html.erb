@@ -68,11 +68,12 @@
 
 <div id="dialog"> </div>
 <% stats = WorldStatistic.last %>
-<div id="world_stats">
-  World Statistics:
-  Population: <%= stats.population %>,
-  Prevalence of vitiligo: <%= stats.percentage %> %,
-  Number of patients: <%= stats.count.to_i %>
-  </p>
-</div>
+<% if !stats.nil? %>
+  <div id="world_stats">
+    World Statistics:
+    Population: <%= stats.population %>,
+    Prevalence of vitiligo: <%= stats.percentage %> %,
+    Number of patients: <%= stats.count.to_i %>
+  </div>
+<% end %>
 
