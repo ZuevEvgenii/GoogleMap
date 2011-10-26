@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110920090216) do
+ActiveRecord::Schema.define(:version => 20111026071721) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(:version => 20110920090216) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "icon_id"
+  end
+
+  create_table "world_statistics", :force => true do |t|
+    t.string   "population"
+    t.float    "percentage"
+    t.float    "count"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end
