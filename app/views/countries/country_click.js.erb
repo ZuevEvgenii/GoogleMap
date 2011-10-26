@@ -2,7 +2,7 @@
   $('#dialog').removeClass('no_result');
   $('#dialog').attr('title', '<%= @country.country_list.name %>');
   $("span.ui-dialog-title").text('<%= @country.country_list.name %>');
-  $('#dialog').html('<p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p>');
+  $('#dialog').html('<p> Description: <%= @country.description %> </p> <p> Vitiligo: <%= @country.value %> </p> <p> Number of patients: <%= @country.number_of_patients %> </p>');
 <% else %>
   $('#dialog').addClass('no_result');
 <% end %>
