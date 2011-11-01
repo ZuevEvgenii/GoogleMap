@@ -22,5 +22,16 @@ Vitiligo::Application.configure do
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
+
+  #Mailer
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :domain               => 'domain.of.sender.net',
+    :user_name            => 'vitinomics',
+    :password             => '12345q123',
+    :authentication       => 'plain',
+    :enable_starttls_auto => true  }
 end
 

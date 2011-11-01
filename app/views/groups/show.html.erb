@@ -1,7 +1,7 @@
 <h1><%= @group.title %></h1>
 <br />
 <div id="dialog">
-  <div id = "dialog_errors"></div>
+  <div id = "dialog_errors" style="color:red;"></div>
   <%= form_for("user", :url => register_pacient_path, :remote => true) do |f| %>
     <%= f.label :name %><br />
     <%= f.text_field :name %><br />

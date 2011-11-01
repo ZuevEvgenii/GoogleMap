@@ -9,6 +9,8 @@ class PacientsController < ApplicationController
 
 
     if @user.save
+      UserMailer.welcome_email(@user).deliver
+      UserMailer.nearest_email(@user).deliver
       render :js => "$('#dialog').parent().hide();"
     else
       render :js => "$('#dialog_errors').html('Not valid user');"
