@@ -1,9 +1,10 @@
 <h1><%= @group.title %></h1>
 <br />
 <div id="dialog">
-  <%= form_for("user", :url => register_pacient_path) do |f| %>
+  <div id = "dialog_errors"></div>
+  <%= form_for("user", :url => register_pacient_path, :remote => true) do |f| %>
     <%= f.label :name %><br />
-    <%= f.text_field :name %>
+    <%= f.text_field :name %><br />
     <%= f.label :email %><br />
     <%= f.text_field :email %>
     <br />
@@ -42,6 +43,13 @@ Nearest objects:
   $("#dialog").hide();
   $("#new_pacient_btn").click(function(event) {
     $("#dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
+    $('#dialog_errors').html('');
+    $('#dialog').parent().show();
+    $('#user_name').val('');
+    $('#user_email').val('');
+    $('#user_password').val('');
+    $('#user_password_confirmation').val('');
+    $('#user_publish_me').removeAttr('checked');
   });
 
   var client_marker;
