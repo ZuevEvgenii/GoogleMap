@@ -10,6 +10,8 @@ class Marker < ActiveRecord::Base
   belongs_to :group
   belongs_to :icon
 
+  belongs_to :user
+
   before_save :check_html
 
   def gmaps4rails_address

@@ -1,6 +1,23 @@
 <h1><%= @group.title %></h1>
 <br />
-
+<div id="dialog">
+  <%= form_for("user", :url => register_pacient_path) do |f| %>
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+    <br />
+    <%= f.label :password %>
+    <%= f.password_field :password %><br />
+    <%= f.label :password_confirmation %>
+    <%= f.password_field :password_confirmation %><br />
+    <%= f.label :location %>
+    <%= f.text_field :location %><br />
+    <%= f.check_box :publish_me %>
+    <%= f.label :publish_me %><br />
+    <%= f.submit 'Sign up' %>
+  <% end %>
+</div>
 Near to<input id="query"></input>
 in radius
 <select id="range">
@@ -13,6 +30,7 @@ in radius
 km
 
 <button id="search_link">Search</button>
+<button id="new_pacient_btn">Pacient registration</button>
 
 
 <%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RRgSEVOhr2Qv8LN5IAo35nqWhJxaRS8PE0_Ua_Q_aAt7jodOr1XTomIUg"}) %>
@@ -20,6 +38,12 @@ Nearest objects:
 <ul id="markers_list">  </ul>
 <% content_for :scripts do %>
 <script type="text/javascript">
+
+  $("#dialog").hide();
+  $("#new_pacient_btn").click(function(event) {
+    $("#dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
+  });
+
   var client_marker;
   var markers;
   var original_map;
@@ -44,6 +68,7 @@ Nearest objects:
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
           jQuery("#query").val(results[0].formatted_address);
+          jQuery("#user_location").val(results[0].formatted_address);
           location_string = results[0].formatted_address;
 
           update_markers();
