@@ -1,0 +1,11 @@
+<div id="signin_dialog" style="float: right;  width:100%;">
+  <div id = "sign_in_dialog_errors" style="color:red;"></div>
+  <%= form_for("user", :url => sign_in_pacient_path, :remote => true, :html => {:style => "float:right"}) do |f| %>
+    <%= f.label :email %>
+    <%= f.text_field :email, :style => "width: 150px;" %>
+    <%= f.label :password %>
+    <%= f.password_field :password, :style => "width: 150px;" %>
+    <button id="signin_submit">Sign in</button>
+  <% end %>
+</div>
+

@@ -10,7 +10,7 @@ class UserMailer < ActionMailer::Base
   def nearest_email(user)
     @user = user
     @url  = "http://vitinomics.net/posts/253-specialists"
-    @groups = Group.all
+    @groups = Group.where("title != ?", "Patients")
     mail(:to => user.email, :subject => "Objects nearest to you in radius of 300 miles")
   end
 end

@@ -1,4 +1,17 @@
-<h1><%= @group.title %></h1>
+<div id="pacient_authorize" style="float: left; width: 100%; margin-bottom: 10px;">
+  <h1 style="float: left; margin-right: 15px;"><%= @group.title %></h1>
+  <div id="pacient_sign" style="float: right; width: 85%;">
+    <% if user_signed_in? %>
+      <%= render :partial => 'pacients/sign_out_pacient' %>
+    <% else %>
+      <%= render :partial => 'pacients/sign_in_pacient' %>
+      <%= link_to "Forgot your password?", "javascript:void(0);", {:style=>'float:right;', :id => "forgot_pass"} %>
+    <% end %>
+  </div>
+  <div id="password_frm" style="display: none;">
+
+  </div>
+</div>
 <br />
 <div id="dialog">
   <div id = "dialog_errors" style="color:red;"></div>
@@ -19,6 +32,8 @@
     <%= f.submit 'Sign up' %>
   <% end %>
 </div>
+
+<div style="float: left;">
 Near to<input id="query"></input>
 in radius
 <select id="range">
@@ -30,13 +45,17 @@ in radius
 </select>
 km
 
-<button id="search_link">Search</button>
-<button id="new_pacient_btn">Pacient registration</button>
-
+<button id="search_link" style="margin-right: 15px;">Search</button>
+<% if !user_signed_in? %>
+<button id="new_pacient_btn" style="float: right;">Pacient registration</button>
+<% end %>
+</div>
 
 <%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RRgSEVOhr2Qv8LN5IAo35nqWhJxaRS8PE0_Ua_Q_aAt7jodOr1XTomIUg"}) %>
+<div style="float: left; width: 100%;">
 Nearest objects:
 <ul id="markers_list">  </ul>
+<div>
 <% content_for :scripts do %>
 <script type="text/javascript">
 
@@ -50,6 +69,11 @@ Nearest objects:
     $('#user_password').val('');
     $('#user_password_confirmation').val('');
     $('#user_publish_me').removeAttr('checked');
+  });
+
+  $("#forgot_pass").click(function(event) {
+    $("#pacient_sign").hide();
+    $("password_frm").show();
   });
 
   var client_marker;
@@ -145,6 +169,7 @@ Nearest objects:
 
   Gmaps.map.callback = function() {
     $(".map_container").width(615);
+    $(".map_container").css('float', 'left');
     $("#map").width(615);
     original_map = Gmaps.map.map;
     locate_client_position();
