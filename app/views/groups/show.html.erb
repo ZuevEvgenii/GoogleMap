@@ -16,7 +16,7 @@
   </div>
 </div>
 <br />
-<div id="dialog">
+<div id="dialog" style="display: none;">
   <div id = "dialog_errors" style="color:red;"></div>
   <%= form_for("user", :url => register_pacient_path, :remote => true) do |f| %>
     <%= f.label :name %><br />
@@ -53,6 +53,8 @@ km
 <button id="search_link" style="margin-right: 15px;">Search</button>
 <% if !user_signed_in? %>
 <button id="new_pacient_btn" style="float: right;">Pacient registration</button>
+<% else %>
+<button id="new_pacient_btn" style="float: right; display: none;">Pacient registration</button>
 <% end %>
 </div>
 
@@ -64,7 +66,6 @@ Nearest objects:
 <% content_for :scripts do %>
 <script type="text/javascript">
 
-  $("#dialog").hide();
   $("#new_pacient_btn").click(function(event) {
     $("#dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
     $('#dialog_errors').html('');
