@@ -5,11 +5,14 @@
       <%= render :partial => 'pacients/sign_out_pacient' %>
     <% else %>
       <%= render :partial => 'pacients/sign_in_pacient' %>
-      <%= link_to "Forgot your password?", "javascript:void(0);", {:style=>'float:right;', :id => "forgot_pass"} %>
     <% end %>
   </div>
-  <div id="password_frm" style="display: none;">
-
+  <div id="password_frm" style="display: none; float: right;">
+    <%= form_for("user", :url => pacient_password_reset_path, :remote => true) do |f| %>
+      <%= f.label :email %>
+      <%= f.text_field :email, :style => "width: 150px;"%>
+      <button id="forgot_btn">Send</button>
+    <% end %>
   </div>
 </div>
 <br />
@@ -32,6 +35,8 @@
     <%= f.submit 'Sign up' %>
   <% end %>
 </div>
+
+<div id="edit_dialog" style="display: none;"> </div>
 
 <div style="float: left;">
 Near to<input id="query"></input>
@@ -73,7 +78,7 @@ Nearest objects:
 
   $("#forgot_pass").click(function(event) {
     $("#pacient_sign").hide();
-    $("password_frm").show();
+    $("#password_frm").show();
   });
 
   var client_marker;

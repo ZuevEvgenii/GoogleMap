@@ -17,6 +17,25 @@ class PacientsController < ApplicationController
     end
   end
 
+  def edit
+    @user = current_user
+    respond_to do |format|
+        format.js
+    end
+  end
+
+  def update_pacient
+    @marker = Marker.find(params[:marker][:id])
+    @marker.address = params[:marker][:address]
+    @marker.name = params[:marker][:name]
+    @marker.published = params[:marker][:published]
+    if @marker.save
+      render :js => "$('#edit_dialog').parent().hide(); alert('Successfuly updated!');"
+    else
+      render :js => "alert('Something went wrong.');"
+    end
+  end
+
   def sign_out_pacient
     @user = current_user
     sign_out @user
@@ -41,7 +60,7 @@ class PacientsController < ApplicationController
     @user = User.find_by_email(params[:user][:email])
     if !@user.nil?
       @user.send_reset_password_instructions
-      render :js => "alert('We have sent instructions to your email!');"
+      render :js => "$('#password_frm').hide(); $('#pacient_sign').show(); alert('We have sent instructions to your email!');"
     else
       render :js => "alert('Check the email address!');"
     end

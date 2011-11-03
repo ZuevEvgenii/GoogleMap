@@ -1,0 +1,11 @@
+<%= form_for(user.marker, :url => update_pacient_path, :remote => true) do |f| %>
+  <%= f.hidden_field :id %>
+  <%= f.label :name %><br />
+  <%= f.text_field :name %><br />
+  <%= f.label :address %>
+  <%= f.text_field :address %><br />
+  <%= f.check_box :published %>
+  <%= f.label :published %><br />
+  <%= f.submit 'Update' %>
+<% end %>
+

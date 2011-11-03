@@ -17,6 +17,9 @@ Vitiligo::Application.routes.draw do
   match '/pacients/register' => 'pacients#register', :as => :register_pacient
   match '/pacients/sign_out_pacient' => 'pacients#sign_out_pacient', :as => :sign_out_pacient
   match '/pacients/sign_in_pacient' => 'pacients#sign_in_pacient', :as => :sign_in_pacient
+  match '/pacients/pacient_password_reset' => 'pacients#pacient_password_reset', :as => :pacient_password_reset
+  match '/pacients/edit' => 'pacients#edit', :as => :edit_pacient
+  match '/pacients/update_pacient' => 'pacients#update_pacient', :as => :update_pacient
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
