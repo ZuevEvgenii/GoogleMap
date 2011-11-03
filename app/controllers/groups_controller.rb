@@ -55,6 +55,30 @@ class GroupsController < ApplicationController
   def get_markers
     @group = Group.find(params[:id])
     range = params[:range].blank? ? 15 : params[:range]
+
+    if @group.title == "Patients"
+
+    if params[:query].present?
+      @markers = @group.markers.near(params[:query], range, :order => :distance).find(:all, :joins => :user, :conditions => { :users => { :activated => true }, :published => true})
+      if @markers.empty?
+        @markers << @group.markers.near(params[:query], 999999999, :order => :distance).find(:all, :joins => :user, :conditions => { :users => { :activated => true }, :published => true}).first
+      end
+      position = Geocoder.search(params[:query])
+      @group.markers.build(:latitude => position[0].latitude, :longitude => position[0].longitude, :name => "Your position", :address => "") if !position.empty?
+    else
+      @markers = @group.markers.find(:all, :joins => :user, :conditions => { :users => { :activated => true }, :published => true})
+    end
+
+    @result = @group.markers.near(params[:query], 999999999).find(:all, :joins => :user, :conditions => { :users => { :activated => true }, :published => true}).to_gmaps4rails do |obj, marker|
+      if @markers.include?(obj) || obj.id.nil?
+        marker.json "\"bounded\": true"
+      else
+        marker.json "\"bounded\": false"
+      end
+    end
+
+    else
+
     if params[:query].present?
 
       #str = params[:query].chop
@@ -87,7 +111,7 @@ class GroupsController < ApplicationController
         marker.json "\"bounded\": false"
       end
     end
-
+    end
     respond_with @result
 
   end
