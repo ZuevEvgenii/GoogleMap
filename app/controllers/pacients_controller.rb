@@ -4,9 +4,8 @@ class PacientsController < ApplicationController
     @user.email = params[:user][:email]
     @user.password = params[:user][:password]
     @user.password_confirmation = params[:user][:password_confirmation]
-    @user.marker = Marker.new(:address => params[:user][:location], :group => Group.find_by_title("Patients"), :name => params[:user][:name])
+    @user.marker = Marker.new(:address => params[:user][:location], :group => Group.find_by_title("Patients"), :name => params[:user][:name], :published => params[:user][:publish_me])
     @user.activated = false
-
 
     if @user.save
       UserMailer.welcome_email(@user).deliver

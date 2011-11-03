@@ -1,0 +1,9 @@
+<p>Email: <%= @user.email %> </p>
+<p>Marker name: <%= @user.marker.name %> </p>
+<p>Marker address: <%= @user.marker.address %> </p>
+<%= semantic_form_for [:admin, @user] do |f| %>
+  <%= f.label :activated %>
+  <%= f.check_box :activated %>
+  <%= f.buttons %>
+<% end %>
+
