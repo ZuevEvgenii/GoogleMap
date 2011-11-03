@@ -1,4 +1,6 @@
 ActiveAdmin.register User do
+  actions :all, :except => [:new]
+
   index do
     column :email
     column :activated
