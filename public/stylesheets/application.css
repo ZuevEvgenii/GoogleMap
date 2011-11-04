@@ -17,3 +17,15 @@ h1 {
 	width: 400px;
 }
 
+#signin_dialog #user_email {
+    float: right;
+}
+
+#signin_dialog #user_password {
+    float: right;
+}
+
+#signin_dialog #signin_submit {
+    float: right;
+}
+

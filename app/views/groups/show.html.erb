@@ -7,13 +7,13 @@
       <%= render :partial => 'pacients/sign_in_pacient' %>
     <% end %>
   </div>
-  <div id="password_frm" style="display: none; float: right;">
-    <%= form_for("user", :url => pacient_password_reset_path, :remote => true) do |f| %>
-      <%= f.label :email %>
-      <%= f.text_field :email, :style => "width: 150px;"%>
-      <button id="forgot_btn">Send</button>
-    <% end %>
-  </div>
+</div>
+<div id="password_frm" style="display: none; float: right;">
+  <%= form_for("user", :url => pacient_password_reset_path, :remote => true) do |f| %>
+    <%= f.label :email %>
+    <%= f.text_field :email, :style => "width: 150px;"%>
+    <button id="forgot_btn">Send</button>
+  <% end %>
 </div>
 <br />
 <div id="dialog" style="display: none;">
@@ -52,9 +52,11 @@ km
 
 <button id="search_link" style="margin-right: 15px;">Search</button>
 <% if !user_signed_in? %>
-<button id="new_pacient_btn" style="float: right;">Pacient registration</button>
+<button id="new_session_btn" style="float: right;">Sign in</button>
+<button id="new_pacient_btn" style="float: right;">Sign up</button>
 <% else %>
-<button id="new_pacient_btn" style="float: right; display: none;">Pacient registration</button>
+<button id="new_pacient_btn" style="float: right; display: none;">Sign up</button>
+<button id="new_session_btn" style="float: right; display: none;">Sign in</button>
 <% end %>
 </div>
 
@@ -69,7 +71,6 @@ Nearest objects:
   $("#new_pacient_btn").click(function(event) {
     $("#dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
     $('#dialog_errors').html('');
-    $('#dialog').parent().show();
     $('#user_name').val('');
     $('#user_email').val('');
     $('#user_password').val('');
@@ -77,9 +78,14 @@ Nearest objects:
     $('#user_publish_me').removeAttr('checked');
   });
 
-  $("#forgot_pass").click(function(event) {
-    $("#pacient_sign").hide();
-    $("#password_frm").show();
+  function forgot_fn()
+    {
+      $("#password_frm").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
+      $("#signin_dialog").dialog('close');
+    }
+
+  $('#new_session_btn').click(function(event) {
+    $("#signin_dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
   });
 
   var client_marker;

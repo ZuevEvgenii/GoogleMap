@@ -10,7 +10,7 @@ class PacientsController < ApplicationController
     if @user.save
       UserMailer.welcome_email(@user).deliver
       UserMailer.nearest_email(@user).deliver
-      render :js => "$('#dialog').parent().hide();"
+      render :js => "$('#dialog').dialog('close');"
     else
       render :js => "$('#dialog_errors').html('Not valid user');"
     end
@@ -29,7 +29,7 @@ class PacientsController < ApplicationController
     @marker.name = params[:marker][:name]
     @marker.published = params[:marker][:published]
     if @marker.save
-      render :js => "$('#edit_dialog').parent().hide(); alert('Successfuly updated!');"
+      render :js => "$('#edit_dialog').dialog('close'); alert('Successfuly updated!');"
     else
       render :js => "alert('Something went wrong.');"
     end
@@ -59,7 +59,7 @@ class PacientsController < ApplicationController
     @user = User.find_by_email(params[:user][:email])
     if !@user.nil?
       @user.send_reset_password_instructions
-      render :js => "$('#password_frm').hide(); $('#pacient_sign').show(); alert('We have sent instructions to your email!');"
+      render :js => "$('#password_frm').dialog('close'); alert('We have sent instructions to your email!');"
     else
       render :js => "alert('Check the email address!');"
     end
