@@ -49,8 +49,8 @@ in radius
   <option selected value="99999999">Infinity</option>
 </select>
 km
-
-<button id="search_link" style="margin-right: 15px;">Search</button>
+</div>
+<button id="search_link" style="float: left; margin-right: 15px;">Search</button>
 <% if !user_signed_in? %>
 <button id="new_session_btn" style="float: right;">Sign in</button>
 <button id="new_pacient_btn" style="float: right;">Sign up</button>
@@ -58,7 +58,7 @@ km
 <button id="new_pacient_btn" style="float: right; display: none;">Sign up</button>
 <button id="new_session_btn" style="float: right; display: none;">Sign in</button>
 <% end %>
-</div>
+
 
 <%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RRgSEVOhr2Qv8LN5IAo35nqWhJxaRS8PE0_Ua_Q_aAt7jodOr1XTomIUg"}) %>
 <div style="float: left; width: 100%;">
