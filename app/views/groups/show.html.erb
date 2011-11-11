@@ -90,6 +90,8 @@ Nearest objects:
     $("#signin_dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
   });
 
+  var spare_location = '<%= request.location.country %>, <%= request.location.city %>, <%= request.location.address %>';
+
   var client_marker;
   var markers;
   var original_map;
@@ -102,9 +104,32 @@ Nearest objects:
 
   // определение положения пользователя
   function locate_client_position(){
-    navigator.geolocation.getCurrentPosition(successCallback,
+
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(successCallback,
                                                errorCallback,
                                                {maximumAge:600000});
+    } else {
+      //client_location_lat = position.coords.latitude;
+      //client_location_lng = position.coords.longitude;
+      //client_location = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      geocoder.geocode({'address': spare_location}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            jQuery("#query").val(results[0].formatted_address);
+            jQuery("#user_location").val(results[0].formatted_address);
+            location_string = results[0].formatted_address;
+
+            client_location = results[0].geometry.location;
+            client_location_lat = client_location.lat();
+            client_location_lng = client_location.lng();
+
+
+            update_markers();
+          }
+        } else { alert("geocoding failed") }
+      });
+    }
   }
   function successCallback(position) {
     client_location_lat = position.coords.latitude;
