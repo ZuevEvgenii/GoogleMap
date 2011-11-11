@@ -37,7 +37,6 @@
 </div>
 
 <div id="edit_dialog" style="display: none;"> </div>
-
 <div style="float: left;">
 Near to<input id="query"></input>
 in radius
@@ -61,6 +60,9 @@ km
 
 
 <%= gmaps("map_options" => {"provider_key" => "ABQIAAAApJArxHc7YBf6zd_yKs9-5RRgSEVOhr2Qv8LN5IAo35nqWhJxaRS8PE0_Ua_Q_aAt7jodOr1XTomIUg"}) %>
+<div style="float: left;">
+<%= @group.description %>
+</div>
 <div style="float: left; width: 100%;">
 Nearest objects:
 <ul id="markers_list">  </ul>
