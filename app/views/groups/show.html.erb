@@ -99,12 +99,29 @@ Nearest objects:
   var client_location_lat;
   var client_location_lng;
   var location_latlng;
-  var location_string = "london";
+  var location_string = '<%= @location %>';
   var geocoder = new google.maps.Geocoder();
 
   // определение положения пользователя
   function locate_client_position(){
+    if(location_string!=''){
+      jQuery("#query").val(location_string);
+      geocoder.geocode({'address': location_string}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          if (results[0]) {
+            jQuery("#user_location").val(results[0].formatted_address);
+            location_string = results[0].formatted_address;
 
+            client_location = results[0].geometry.location;
+            client_location_lat = client_location.lat();
+            client_location_lng = client_location.lng();
+
+
+            update_markers();
+          }
+        } else { alert("geocoding failed") }
+      });
+    } else {
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(successCallback,
                                                errorCallback,
@@ -129,6 +146,7 @@ Nearest objects:
           }
         } else { alert("geocoding failed") }
       });
+    }
     }
   }
   function successCallback(position) {

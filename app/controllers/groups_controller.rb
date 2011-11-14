@@ -3,6 +3,9 @@ class GroupsController < ApplicationController
   respond_to :json, :html
 
   def index
+    if params[:group_title].present?
+      redirect_to :action => :show, :id => Group.find_by_title(params[:group_title]), :location => params[:location]
+    end
     @groups = Group.all
   end
 
@@ -50,6 +53,9 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @markers = @group.markers.to_gmaps4rails
+    if params[:location].present?
+      @location = params[:location]
+    end
   end
 
   def get_markers
