@@ -51,11 +51,11 @@ km
 </div>
 <button id="search_link" style="float: left; margin-right: 15px;">Search</button>
 <% if !user_signed_in? %>
-<button id="new_session_btn" style="float: right;">Sign in</button>
-<button id="new_pacient_btn" style="float: right;">Sign up</button>
+<button id="new_session_btn" style="float: right; display:none;">Sign in</button>
+<button id="new_pacient_btn" style="float: right;">Add me on map</button>
 <% else %>
 <button id="new_pacient_btn" style="float: right; display: none;">Sign up</button>
-<button id="new_session_btn" style="float: right; display: none;">Sign in</button>
+<button id="new_session_btn" style="float: right; display: none;">Add me on map</button>
 <% end %>
 
 
