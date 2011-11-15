@@ -41,11 +41,11 @@
 Near to<input id="query"></input>
 in radius
 <select id="range">
-  <option value="15">15 km</option>
+  <option <%= "selected" if @location %> value="15">15 km</option>
   <option value="50">50 km</option>
   <option value="150">150 km</option>
   <option value="300">300 km</option>
-  <option selected value="99999999">Infinity</option>
+  <option <%= "selected" if !@location %> value="99999999">Infinity</option>
 </select>
 km
 </div>
