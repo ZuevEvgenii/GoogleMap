@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111111041035) do
+ActiveRecord::Schema.define(:version => 20111119062514) do
 
   create_table "active_admin_comments", :force => true do |t|
     t.integer  "resource_id",   :null => false
@@ -115,10 +115,12 @@ ActiveRecord::Schema.define(:version => 20111111041035) do
 
   create_table "world_statistics", :force => true do |t|
     t.string   "population"
-    t.float    "percentage"
-    t.float    "count"
+    t.float    "from"
+    t.float    "to"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.float    "from_patients"
+    t.float    "to_patients"
   end
 
 end

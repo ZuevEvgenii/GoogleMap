@@ -29,13 +29,13 @@
       var data = new google.visualization.DataTable();
       data.addRows(<%= @countries.count %>);
       data.addColumn('string', 'Country');
-      data.addColumn('number', 'Vitiligo prevalence (%)');
+      data.addColumn('number', 'Number of patients');
       data.addColumn('string', 'Name');
       i = 0;
       <% if !@countries.nil? %>
         <% @countries.each do |country| %>
           data.setValue(i, 0, '<%= country.country_list.code %>');
-          data.setValue(i, 1, <%= country.value %>);
+          data.setValue(i, 1, <%= !country.number_of_patients.nil? ? country.number_of_patients : 0 %>);
           data.setValue(i, 2, '<%= country.country_list.name %>');
           i +=1;
         <% end %>
@@ -71,9 +71,6 @@
 <% if !stats.nil? %>
   <div id="world_stats">
     World Statistics:
-    Population: <%= stats.population %>,
-    Prevalence of vitiligo: <%= stats.percentage %> %,
-    Number of patients: <%= stats.count.to_i %>
-  </div>
+    Population: <%= stats.population %>, prevalence of vitiligo in the world: from <%= stats.from %> to <%= stats.to %>, depending of the region, number of patients: from <%= stats.from_patients.to_i %> to <%= stats.to_patients.to_i %> </div>
 <% end %>
 

@@ -1,0 +1,15 @@
+<%= semantic_form_for [:admin, @world_statistic] do |f| %>
+        <%= f.inputs "Population in the world" do %>
+          <%= f.input :population %>
+        <% end %>
+        <%= f.inputs "Prevalence of vitiligo in the world" do %>
+          <%= f.input :from %>
+          <%= f.input :to %>
+        <% end %>
+        <%= f.inputs "Number of patients" do %>
+          <%= f.input :from_patients %>
+          <%= f.input :to_patients %>
+        <% end %>
+      <%= f.buttons %>
+<% end %>
+
