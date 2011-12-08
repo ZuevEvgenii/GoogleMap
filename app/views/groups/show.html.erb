@@ -90,7 +90,7 @@ Nearest objects:
     $("#signin_dialog").dialog({ position: ['left','top'], resizable: false, minHeight: 30 });
   });
 
-  var spare_location = '<%= request.location.country %>, <%= request.location.city %>, <%= request.location.address %>';
+  var spare_location = "<%= !request.location.nil? ? request.location.country : 'England'  %>, <%= !request.location.nil? ? request.location.city : 'London' %>, <%= !request.location.nil? ? request.location.address : 'London' %>";
 
   var client_marker;
   var markers;
