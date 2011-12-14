@@ -29,7 +29,7 @@ Vitiligo::Application.configure do
     :address              => "smtp.gmail.com",
     :port                 => 587,
     :domain               => 'domain.of.sender.net',
-    :user_name            => 'vitinomics',
+    :user_name            => 'username',
     :password             => '12345q123',
     :authentication       => 'plain',
     :enable_starttls_auto => true  }
