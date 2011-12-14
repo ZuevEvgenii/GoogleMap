@@ -123,8 +123,14 @@ class GroupsController < ApplicationController
   end
 
   def sidebar
-    @marker = Marker.where(:latitude => params[:lat], :longitude => params[:lng]).first
+    #@marker = Marker.where(:latitude => params[:lat], :longitude => params[:lng]).first
+    @markers = []
+    for m in 0..params["markers"].length-1
+      m =  Marker.where(:latitude => params["markers"][m.to_s]["lat"], :longitude => params["markers"][m.to_s]["lng"]).first
+      @markers << m if m
+    end
 
+    #@mes = params[:markers]
     @location = params[:location]
     respond_to do |format|
       format.js

@@ -210,12 +210,15 @@ Nearest objects:
   function update_list() {
     $("#markers_list").html("");
     var i=0;
+    var sidebar_temp_markers = [];
     for (i=0;i<markers.length;i++) {
       //$("#markers_list").append("<li><a lat='" + markers[i].lat + "' lng='" + markers[i].lng + "' href='javascript:void(0);'>" + markers[i].sidebar + " - miles to " + location_string + "</a></li>");
       if(markers[i].bounded==true) {
-        $.post("/groups/<%= @group.id %>/sidebar", { lat: markers[i].lat, lng: markers[i].lng, location: location_string}, function() {});
+        //$.post("/groups/<%= @group.id %>/sidebar", { lat: markers[i].lat, lng: markers[i].lng, location: location_string}, function() {});
+        sidebar_temp_markers.push({lat: markers[i].lat, lng: markers[i].lng});
       }
     }
+    $.post("/groups/<%= @group.id %>/sidebar", { markers: sidebar_temp_markers, location: location_string}, function() {});
 
 
     //$("#markers_list li a").click(function(event) {
